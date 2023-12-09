@@ -1,4 +1,6 @@
 import { data, allMatches } from "./data.js";
+import { asTree } from "treeify";
+import axios from "axios";
 export default function Home() {
   function compareWinRate(a, b) {
     if (
@@ -35,6 +37,22 @@ export default function Home() {
     }
     return 0;
   }
+  const getData = async () => {
+    const dataa = await axios.get(
+      "https://api.henrikdev.xyz/valorant/v1/account/Djalti/SYNC"
+    );
+    const puuid = dataa.data.data.puuid;
+    const data = await axios.get(
+      `https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/eu/${puuid}?size=1`
+    );
+    const team_red_win = data.data.data[0].teams.red.has_won;
+    const team_blue_win = data.data.data[0].teams.blue.has_won;
+    console.log(team_blue_win, team_red_win);
+    const blue_team = data.data.data[0].players.blue;
+    const red_team = data.data.data[0].players.red;
+    console.log(blue_team, red_team);
+  };
+  getData();
   data.sort(compareWinRate);
   const PLAYERS = data.map((stats, index) => {
     return (
