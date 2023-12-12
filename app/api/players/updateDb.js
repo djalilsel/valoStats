@@ -9,21 +9,20 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function updatePlayer(puuid, data, matchesPlayed) {
+export async function updatePlayer(puuid, updatedMatches) {
+  console.log(puuid, updatedMatches);
   try {
     await client.connect();
-    matchesPlayed.push(data);
     await client
       .db("players")
       .collection("players")
       .updateOne(
         { puuid: puuid },
         {
-          $set: { matchesPlayed: matchesPlayed },
-          $currentDate: { lastModified: true },
+          $set: { matchesPlayed: updatedMatches },
         }
       );
   } finally {
-    await client.close();
+    client.close();
   }
 }

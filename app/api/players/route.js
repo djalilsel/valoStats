@@ -11,11 +11,50 @@ const getPlayers = async () => {
 };
 
 const updatePlayers = async (team, matchId) => {
+  function hasPlayed(match) {
+    return match.matchId == matchId;
+  }
   const players = await getPlayers();
-  console.log(team);
   const newPlayers = [];
-  players.length == 0
-    ? team.map((player) => {
+  const updatedPlayers = [];
+  if (players.length == 0) {
+    team.map((player) => {
+      newPlayers.push({
+        puuid: player.puuid,
+        name: player.name,
+        tag: player.tag,
+        matchesPlayed: [
+          {
+            matchId: matchId,
+            team: player.team,
+            matchResult: player.has_won ? 1 : 0,
+            kills: player.stats.kills,
+            deaths: player.stats.deaths,
+            assists: player.stats.assists,
+          },
+        ],
+      });
+    });
+  } else {
+    for (const player of team) {
+      let found = false;
+      for (const p of players) {
+        if (p.puuid === player.puuid) {
+          found = true;
+          if (!p.matchesPlayed.find(hasPlayed)) {
+            const updatedplayers = p.matchesPlayed.push({
+              matchId: matchId,
+              team: player.team,
+              matchResult: player.has_won ? 1 : 0,
+              kills: player.stats.kills,
+              deaths: player.stats.deaths,
+              assists: player.stats.assists,
+            });
+            await updatePlayer(player.puuid, updatedplayers);
+          }
+        }
+      }
+      if (!found) {
         newPlayers.push({
           puuid: player.puuid,
           name: player.name,
@@ -31,45 +70,48 @@ const updatePlayers = async (team, matchId) => {
             },
           ],
         });
-      })
-    : team.map((player) => {
-        let found = false;
-        players.map((p) => {
-          if (p.puuid === player.puuid) {
-            found = true;
-            updatePlayer(
-              player.puuid,
-              {
-                matchId: matchId,
-                team: player.team,
-                matchResult: player.has_won ? 1 : 0,
-                kills: player.stats.kills,
-                deaths: player.stats.deaths,
-                assists: player.stats.assists,
-              },
-              p.matchesPlayed
-            );
-          }
-        });
-        if (!found) {
-          newPlayers.push({
-            puuid: player.puuid,
-            name: player.name,
-            tag: player.tag,
-            matchesPlayed: [
-              {
-                matchId: matchId,
-                team: player.team,
-                matchResult: player.has_won ? 1 : 0,
-                kills: player.stats.kills,
-                deaths: player.stats.deaths,
-                assists: player.stats.assists,
-              },
-            ],
-          });
-        }
-      });
-  await newPlayer(newPlayers);
+      }
+    }
+  }
+
+  // team.map((player) => {
+  //     let found = false;
+  //     players.map((p) => {
+  //       if (p.puuid === player.puuid) {
+  //         found = true;
+  //         if (!p.matchesPlayed.find(hasPlayed)) {
+  //           const updatedplayers = p.matchesPlayed.push({
+  //             matchId: matchId,
+  //             team: player.team,
+  //             matchResult: player.has_won ? 1 : 0,
+  //             kills: player.stats.kills,
+  //             deaths: player.stats.deaths,
+  //             assists: player.stats.assists,
+  //           });
+  //           updatePlayer(player.puuid, updatedplayers);
+  //         }
+  //       }
+  //     });
+  //     if (!found) {
+  //       newPlayers.push({
+  //         puuid: player.puuid,
+  //         name: player.name,
+  //         tag: player.tag,
+  //         matchesPlayed: [
+  //           {
+  //             matchId: matchId,
+  //             team: player.team,
+  //             matchResult: player.has_won ? 1 : 0,
+  //             kills: player.stats.kills,
+  //             deaths: player.stats.deaths,
+  //             assists: player.stats.assists,
+  //           },
+  //         ],
+  //       });
+  //     }
+  //   });
+  if (updatedPlayers.length > 0) await updatePlayer(updatedPlayers);
+  if (newPlayers.length > 0) await newPlayer(newPlayers);
 };
 export const GET = async (request) => {
   const playerss = await getPlayers();

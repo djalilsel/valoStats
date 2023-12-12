@@ -22,27 +22,3 @@ export async function fetchPlayers() {
     await client.close();
   }
 }
-
-// export async function newPlayer(data) {
-//   try {
-//     await client.connect();
-//     await client.db("players").collection("players").insertOne(data);
-//   } finally {
-//     await client.close();
-//   }
-// }
-
-// export async function updatePlayer(puuid, data) {
-//   try {
-//     await client.connect();
-//     await client
-//       .db("players")
-//       .collection("players")
-//       .updateOne(
-//         { puuid: puuid },
-//         { $set: data, $currentDate: { lastModified: true } }
-//       );
-//   } finally {
-//     await client.close();
-//   }
-// }
