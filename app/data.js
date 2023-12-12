@@ -2,6 +2,7 @@ export const allMatches = 3;
 
 export const data = [
   {
+    puuid: "",
     name: "Djalti",
     matchesPlayed: 3,
     matchesWon: 2,
@@ -9,6 +10,7 @@ export const data = [
     matchesDrawn: 0,
   },
   {
+    puuid: "",
     name: "Aymene",
     matchesPlayed: 3,
     matchesWon: 3,
@@ -16,6 +18,7 @@ export const data = [
     matchesDrawn: 0,
   },
   {
+    puuid: "",
     name: "Croco",
     matchesPlayed: 3,
     matchesWon: 3,
@@ -23,6 +26,7 @@ export const data = [
     matchesDrawn: 0,
   },
   {
+    puuid: "",
     name: "Oscar",
     matchesPlayed: 3,
     matchesWon: 0,
@@ -31,6 +35,7 @@ export const data = [
   },
   {
     name: "xMarXMaN",
+    puuid: "",
     matchesPlayed: 2,
     matchesWon: 2,
     matchesLost: 0,
@@ -38,6 +43,7 @@ export const data = [
   },
   {
     name: "Sugar Cakes",
+    puuid: "",
     matchesPlayed: 3,
     matchesWon: 2,
     matchesLost: 1,
@@ -45,6 +51,7 @@ export const data = [
   },
   {
     name: "Yellow",
+    puuid: "",
     matchesPlayed: 3,
     matchesWon: 0,
     matchesLost: 3,
@@ -52,6 +59,7 @@ export const data = [
   },
   {
     name: "xLyes",
+    puuid: "",
     matchesPlayed: 3,
     matchesWon: 1,
     matchesLost: 2,
@@ -59,6 +67,7 @@ export const data = [
   },
   {
     name: "Sohaib",
+    puuid: "",
     matchesPlayed: 3,
     matchesWon: 0,
     matchesLost: 3,
@@ -66,6 +75,7 @@ export const data = [
   },
   {
     name: "Noui",
+    puuid: "",
     matchesPlayed: 1,
     matchesWon: 1,
     matchesLost: 0,
@@ -73,6 +83,7 @@ export const data = [
   },
   {
     name: "MellioDas",
+    puuid: "",
     matchesPlayed: 1,
     matchesWon: 0,
     matchesLost: 1,
@@ -80,6 +91,7 @@ export const data = [
   },
   {
     name: "Fortayer",
+    puuid: "",
     matchesPlayed: 2,
     matchesWon: 2,
     matchesLost: 0,

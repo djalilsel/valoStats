@@ -1,6 +1,8 @@
+"use client";
 import { data, allMatches } from "./data.js";
 import { asTree } from "treeify";
 import axios from "axios";
+import { useEffect } from "react";
 export default function Home() {
   function compareWinRate(a, b) {
     if (
@@ -37,26 +39,10 @@ export default function Home() {
     }
     return 0;
   }
-  const getData = async () => {
-    const dataa = await axios.get(
-      "https://api.henrikdev.xyz/valorant/v1/account/Djalti/SYNC"
-    );
-    const puuid = dataa.data.data.puuid;
-    const data = await axios.get(
-      `https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/eu/${puuid}?size=1`
-    );
-    const team_red_win = data.data.data[0].teams.red.has_won;
-    const team_blue_win = data.data.data[0].teams.blue.has_won;
-    console.log(team_blue_win, team_red_win);
-    const blue_team = data.data.data[0].players.blue;
-    const red_team = data.data.data[0].players.red;
-    console.log(blue_team, red_team);
-  };
-  getData();
   data.sort(compareWinRate);
   const PLAYERS = data.map((stats, index) => {
     return (
-      <li className="flex justify-around w-full my-4">
+      <li className="flex justify-around w-full my-4" key={index}>
         <p className="w-20 text-center border-x-1 border-x-white">
           {index + 1}
         </p>
@@ -88,6 +74,14 @@ export default function Home() {
       </li>
     );
   });
+  useEffect(() => {
+    const fetching = async () => {
+      const players = (await axios.get("http://localhost:3000/api/players"))
+        .data.data;
+      console.log(players);
+    };
+    fetching();
+  }, []);
   return (
     <main className="bg-slate-900 h-full min-h-screen w-full text-white py-24 px-80">
       <ul>
