@@ -1,9 +1,7 @@
-import axios from "axios";
-
 async function getData() {
-    const res = await fetch("http://localhost:3000/api/initialdata")
-    console.log(res);
-    return res.json();
+    const res = await import("./api/players/route");
+    const data = await res.GET();
+    return data.json();
 }
 
 export default async function Home() {

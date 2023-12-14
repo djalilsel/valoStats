@@ -4,8 +4,6 @@ import { fetchPlayers } from "./getDataFromDb.js";
 import { newPlayer } from "./newPlayer.js";
 import { updatePlayer } from "./updateDb.js";
 
-
-
 const getPlayerInfo = (player, matchId) => {
     const { puuid, name, tag, ...matchInfo } = player;
     const { team, has_won, stats } = matchInfo;
@@ -60,8 +58,6 @@ const updatePlayers = async (matchId, matchPlayers) => {
     }
 };
 
-
-
 export const POST = async (request) => {
     try {
         const { matchId } = await request.json();
@@ -90,6 +86,20 @@ export const POST = async (request) => {
         return NextResponse.json({ message: "Done" }, { status: 200 });
     } catch (err) {
         console.log(err);
+        return NextResponse.json({ message: "Error", err }, { status: 500 });
+    }
+};
+
+const getPlayers = async () => {
+    const players = await fetchPlayers();
+    return players;
+};
+
+export const GET = async () => {
+    const players = await getPlayers();
+    try {
+        return NextResponse.json(players, { status: 200 });
+    } catch (err) {
         return NextResponse.json({ message: "Error", err }, { status: 500 });
     }
 };
