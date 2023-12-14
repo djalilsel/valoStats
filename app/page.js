@@ -1,9 +1,8 @@
-async function getData() {
-    const res = await fetch("http://localhost:3000/api/players");
-    if (!res.ok) {
-        throw new Error("Failed to fetch data");
-    }
+import axios from "axios";
 
+async function getData() {
+    const res = await fetch("http://localhost:3000/api/initialdata")
+    console.log(res);
     return res.json();
 }
 
