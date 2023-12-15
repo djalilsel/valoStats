@@ -1,7 +1,7 @@
 async function getData() {
     const res = await import("./api/players/route");
-    const data = await res.GET();
-    return data.json();
+    const data = await (await res.GET()).json();
+    return data;
 }
 
 export default async function Home() {

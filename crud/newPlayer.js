@@ -1,13 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
-
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    },
-});
+import { client } from "@/config/db";
 
 export async function newPlayer(data) {
     try {
@@ -17,6 +8,7 @@ export async function newPlayer(data) {
         } else {
             await client.db("players").collection("players").insertMany(data);
         }
-    } finally {
+    } catch (err) {
+        console.error(err);
     }
 }

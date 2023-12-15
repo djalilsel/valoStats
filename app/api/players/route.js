@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { fetchPlayers } from "./getDataFromDb.js";
-import { newPlayer } from "./newPlayer.js";
-import { updatePlayer } from "./updateDb.js";
+import { fetchPlayers } from "../../../crud/getDataFromDb.js";
+import { newPlayer } from "../../../crud/newPlayer.js";
+import { updatePlayer } from "../../../crud/updateDb.js";
 
 const getPlayerInfo = (player, matchId) => {
     const { puuid, name, tag, ...matchInfo } = player;
@@ -90,14 +90,9 @@ export const POST = async (request) => {
     }
 };
 
-const getPlayers = async () => {
-    const players = await fetchPlayers();
-    return players;
-};
-
 export const GET = async () => {
-    const players = await getPlayers();
     try {
+        const players = await fetchPlayers();
         return NextResponse.json(players, { status: 200 });
     } catch (err) {
         return NextResponse.json({ message: "Error", err }, { status: 500 });

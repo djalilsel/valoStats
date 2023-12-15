@@ -1,16 +1,6 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
-
-const uri = process.env.MONGODB_URI;
-export const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    },
-});
+import { client } from "@/config/db";
 
 export async function updatePlayer(puuid, updatedMatches) {
-    console.log(puuid, updatedMatches);
     try {
         await client.connect();
         await client
@@ -22,6 +12,7 @@ export async function updatePlayer(puuid, updatedMatches) {
                     $set: { matchesPlayed: updatedMatches },
                 },
             );
-    } finally {
+    } catch (err) {
+        console.error(err);
     }
 }
