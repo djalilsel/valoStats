@@ -15,6 +15,5 @@ export async function fetchPlayers() {
         const dataset = await client.db("players").collection("players").find().toArray();
         return dataset;
     } finally {
-        await client.close();
     }
 }

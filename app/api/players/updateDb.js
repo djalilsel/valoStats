@@ -23,6 +23,5 @@ export async function updatePlayer(puuid, updatedMatches) {
                 },
             );
     } finally {
-        client.close();
     }
 }

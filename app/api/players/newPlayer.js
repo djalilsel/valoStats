@@ -18,6 +18,5 @@ export async function newPlayer(data) {
             await client.db("players").collection("players").insertMany(data);
         }
     } finally {
-        await client.close();
     }
 }
