@@ -31,10 +31,10 @@ const updatePlayers = async (matchId, matchPlayers) => {
     if (!existentPlayers.length) {
         const savedPlayers = matchPlayers.map((player) => getPlayerInfo(player, matchId));
         await newPlayer(savedPlayers);
-        return;
+        return NextResponse.json({ message: "Done" }, { status: 200 });
     }
     if (existentPlayers.some((player) => player.matchesPlayed.some((match) => match.matchId === matchId))) {
-        return;
+        return NextResponse.json({ message: "Match already exists" }, { status: 200 });
     }
 
     for (const player of matchPlayers) {
@@ -56,6 +56,7 @@ const updatePlayers = async (matchId, matchPlayers) => {
             await newPlayer([getPlayerInfo(player)]);
         }
     }
+    return NextResponse.json({ message: "Done" }, { status: 200 });
 };
 
 export const POST = async (request) => {
@@ -81,9 +82,7 @@ export const POST = async (request) => {
             has_won: match.data.data.teams.blue.has_won,
         }));
 
-        updatePlayers(matchId, [...red_team, ...blue_team]);
-
-        return NextResponse.json({ message: "Done" }, { status: 200 });
+        return updatePlayers(matchId, [...red_team, ...blue_team]);
     } catch (err) {
         console.log(err);
         return NextResponse.json({ message: "Error", err }, { status: 500 });
